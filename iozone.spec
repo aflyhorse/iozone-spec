@@ -1,12 +1,13 @@
 Summary: IOzone Filesystem Benchmark
 Name: iozone
-%define real_version 3_487
-Version: 3.487
-Release: 2%{?dist}
+%define real_version 3_489
+Version: 3.489
+Release: 1%{?dist}
 License: Freeware
 Group: Applications/System
 URL: http://www.iozone.org/
 
+%undefine _disable_source_fetch
 Source0: http://www.iozone.org/src/current/iozone%{real_version}.tar
 Source1: http://www.iozone.org/docs/Iozone_License.txt
 BuildRequires: gcc
@@ -37,7 +38,7 @@ sed -ie 's/^CFLAGS\s*=/CFLAGS  = -g/' src/current/makefile
     %ifarch ppc %{power64}
       %{__make} %{?_smp_mflags} -C src/current linux-powerpc64
     %else
-      %ifarch %{arm}
+      %ifarch %{arm} aarch64
         %{__make} %{?_smp_mflags} -C src/current linux-arm
       %else
         echo "No idea how to build for your arch..."
@@ -70,6 +71,10 @@ sed -i '1s/^/#!\/bin\/bash\n/' src/current/Generate_Graphs
 %{_datadir}/iozone/
 
 %changelog
+* Sun Mar 8 2020 Chen Chen <aflyhorse@fedoraproject.org> - 3.489-1
+- Update to release 3.489
+- Add aarch64 support
+
 * Tue Apr 30 2019 Chen Chen <aflyhorse@fedoraproject.org> - 3.487-2
 - Add license file for author's sake
 - Add gcc BuildRequires for recent Fedora
