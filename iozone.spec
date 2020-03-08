@@ -7,7 +7,7 @@ License: Freeware
 Group: Applications/System
 URL: http://www.iozone.org/
 
-%undefine _disable_source_fetch
+%define _disable_source_fetch 0
 Source0: http://www.iozone.org/src/current/iozone%{real_version}.tar
 Source1: http://www.iozone.org/docs/Iozone_License.txt
 BuildRequires: gcc
