@@ -1,7 +1,7 @@
-Summary: IOzone Filesystem Benchmark
+Summary: A Filesystem Benchmark Tool
 Name: iozone
-%define real_version 3_489
-Version: 3.489
+%define real_version 3_490
+Version: 3.490
 Release: 1%{?dist}
 License: Freeware
 Group: Applications/System
@@ -10,7 +10,7 @@ URL: http://www.iozone.org/
 %define _disable_source_fetch 0
 Source0: http://www.iozone.org/src/current/iozone%{real_version}.tar
 Source1: http://www.iozone.org/docs/Iozone_License.txt
-BuildRequires: gcc
+BuildRequires: gcc, dos2unix
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 
 %description
@@ -49,13 +49,20 @@ sed -ie 's/^CFLAGS\s*=/CFLAGS  = -g/' src/current/makefile
 %endif
 
 sed -i '1s/^/#!\/bin\/bash\n/' src/current/Generate_Graphs
+dos2unix src/current/report.pl
+dos2unix src/current/iozone_visualizer.pl
+sed -i '1s/env perl/perl/' src/current/iozone_visualizer.pl
+dos2unix src/current/Gnuplot.txt
+dos2unix docs/iozone.1
 
 %install
 %{__rm} -rf %{buildroot}
 %{__install} -Dp -m0755 src/current/iozone %{buildroot}%{_bindir}/iozone
 %{__install} -Dp -m0755 src/current/Generate_Graphs %{buildroot}%{_datadir}/iozone/Generate_Graphs
 %{__install} -Dp -m0755 src/current/gengnuplot.sh %{buildroot}%{_datadir}/iozone/gengnuplot.sh
-%{__install} -Dp -m0755 src/current/gnu3d.dem %{buildroot}%{_datadir}/iozone/gnu3d.dem
+%{__install} -Dp -m0644 src/current/gnu3d.dem %{buildroot}%{_datadir}/iozone/gnu3d.dem
+%{__install} -Dp -m0755 src/current/iozone_visualizer.pl %{buildroot}%{_datadir}/iozone/iozone_visualizer.pl
+%{__install} -Dp -m0755 src/current/report.pl %{buildroot}%{_datadir}/iozone/report.pl
 %{__install} -Dp -m0644 docs/iozone.1 %{buildroot}%{_mandir}/man1/iozone.1
 
 %clean
@@ -64,13 +71,18 @@ sed -i '1s/^/#!\/bin\/bash\n/' src/current/Generate_Graphs
 %files
 %defattr(-, root, root, 0755)
 %license Iozone_License.txt
-%doc src/current/Changes.txt src/current/Gnuplot.txt
-%doc src/current/*.pl src/current/*.sh docs/*
+%attr(0644, root, root) %doc src/current/Changes.txt src/current/Gnuplot.txt docs/*
+#%attr(0755, root, root) %doc src/current/*.pl src/current/*.sh
 %doc %{_mandir}/man1/iozone.1*
 %{_bindir}/iozone
 %{_datadir}/iozone/
 
 %changelog
+* Thu Sep 10 2020 Chen Chen <aflyhorse@fedoraproject.org> - 3.490-1
+- Update to release 3.490
+- Fix file permissions of docs
+- Fix line breakers
+
 * Sun Mar 8 2020 Chen Chen <aflyhorse@fedoraproject.org> - 3.489-1
 - Update to release 3.489
 - Add aarch64 support
