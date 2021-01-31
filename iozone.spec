@@ -1,7 +1,7 @@
 Summary: A Filesystem Benchmark Tool
 Name: iozone
-%define real_version 3_490
-Version: 3.490
+%define real_version 3_491
+Version: 3.491
 Release: 1%{?dist}
 License: Freeware
 Group: Applications/System
@@ -78,6 +78,9 @@ dos2unix docs/iozone.1
 %{_datadir}/iozone/
 
 %changelog
+* Sun Jan 31 2021 Chen Chen <aflyhorse@fedoraproject.org> - 3.491-1
+- Update to release 3.491
+
 * Thu Sep 10 2020 Chen Chen <aflyhorse@fedoraproject.org> - 3.490-1
 - Update to release 3.490
 - Fix file permissions of docs
