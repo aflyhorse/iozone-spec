@@ -26,20 +26,19 @@ fread, fwrite, random read, pread ,mmap, aio_read, aio_write.
 %prep
 %setup -n %{name}%{real_version}
 cp %{SOURCE1} .
-sed -ie 's/^CFLAGS\s*=/CFLAGS  = -g/' src/current/makefile
 
 %build
 %ifarch %{ix86}
-  %{__make} %{?_smp_mflags} -C src/current linux
+  %define mfile linux
 %else
   %ifarch x86_64
-     %{__make} %{?_smp_mflags} -C src/current linux-AMD64
+    %define mfile linux-AMD64
   %else
     %ifarch ppc %{power64}
-      %{__make} %{?_smp_mflags} -C src/current linux-powerpc64
+      %define mfile linux-powerpc64
     %else
       %ifarch %{arm} aarch64
-        %{__make} %{?_smp_mflags} -C src/current linux-arm
+        %define mfile linux-arm
       %else
         echo "No idea how to build for your arch..."
         exit 1
@@ -47,6 +46,9 @@ sed -ie 's/^CFLAGS\s*=/CFLAGS  = -g/' src/current/makefile
     %endif
   %endif
 %endif
+%{__rm} -f src/current/*.o
+export CFLAGS=$RPM_OPT_FLAGS
+%{__make} %{?_smp_mflags} -C src/current %{mfile}
 
 sed -i '1s/^/#!\/bin\/bash\n/' src/current/Generate_Graphs
 dos2unix src/current/report.pl
@@ -80,6 +82,9 @@ dos2unix docs/iozone.1
 %changelog
 * Sun Jan 31 2021 Chen Chen <aflyhorse@fedoraproject.org> - 3.491-1
 - Update to release 3.491
+- Remove junk obj files left in upstream tarball
+- Add rpm default CFLAGS
+- Simplify make command
 
 * Thu Sep 10 2020 Chen Chen <aflyhorse@fedoraproject.org> - 3.490-1
 - Update to release 3.490
