@@ -1,14 +1,14 @@
 Summary: A Filesystem Benchmark Tool
 Name: iozone
-%define real_version 3_491
-Version: 3.491
+%define real_version 3_493
+Version: 3.493
 Release: 1%{?dist}
 License: Freeware
 Group: Applications/System
 URL: http://www.iozone.org/
 
 %define _disable_source_fetch 0
-Source0: http://www.iozone.org/src/current/iozone%{real_version}.tar
+Source0: http://www.iozone.org/src/current/iozone%{real_version}.tgz
 Source1: http://www.iozone.org/docs/Iozone_License.txt
 BuildRequires: gcc, dos2unix
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
@@ -80,6 +80,9 @@ dos2unix docs/iozone.1
 %{_datadir}/iozone/
 
 %changelog
+* Fri Jan 21 2022 Chen Chen <aflyhorse@fedoraproject.org> - 3.493-1
+- Update to release 3.493
+
 * Sun Jan 31 2021 Chen Chen <aflyhorse@fedoraproject.org> - 3.491-1
 - Update to release 3.491
 - Remove junk obj files left in upstream tarball
