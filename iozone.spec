@@ -1,7 +1,7 @@
 Summary: A Filesystem Benchmark Tool
 Name: iozone
-%define real_version 3_493
-Version: 3.493
+%define real_version 3_494
+Version: 3.494
 Release: 1%{?dist}
 License: Freeware
 Group: Applications/System
@@ -24,7 +24,7 @@ operations: Read, write, re-read, re-write, read backwards, read strided,
 fread, fwrite, random read, pread ,mmap, aio_read, aio_write.
 
 %prep
-%setup -n %{name}%{real_version}
+%setup -n %{name}%{real_version} -q
 cp %{SOURCE1} .
 
 %build
@@ -65,7 +65,6 @@ dos2unix docs/iozone.1
 %{__install} -Dp -m0644 src/current/gnu3d.dem %{buildroot}%{_datadir}/iozone/gnu3d.dem
 %{__install} -Dp -m0755 src/current/iozone_visualizer.pl %{buildroot}%{_datadir}/iozone/iozone_visualizer.pl
 %{__install} -Dp -m0755 src/current/report.pl %{buildroot}%{_datadir}/iozone/report.pl
-%{__install} -Dp -m0644 docs/iozone.1 %{buildroot}%{_mandir}/man1/iozone.1
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -74,12 +73,14 @@ dos2unix docs/iozone.1
 %defattr(-, root, root, 0755)
 %license Iozone_License.txt
 %attr(0644, root, root) %doc src/current/Changes.txt src/current/Gnuplot.txt docs/*
-#%attr(0755, root, root) %doc src/current/*.pl src/current/*.sh
-%doc %{_mandir}/man1/iozone.1*
+%doc docs/iozone.1
 %{_bindir}/iozone
 %{_datadir}/iozone/
 
 %changelog
+* Thu Dec 29 2022 Chen Chen <aflyhorse@fedoraproject.org> - 3.494-1
+- Update to release 3.494
+
 * Fri Jan 21 2022 Chen Chen <aflyhorse@fedoraproject.org> - 3.493-1
 - Update to release 3.493
 
