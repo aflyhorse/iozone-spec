@@ -48,7 +48,7 @@ cp %{SOURCE1} .
 %endif
 %{__rm} -f src/current/*.o
 export CFLAGS=$RPM_OPT_FLAGS
-%{__make} %{?_smp_mflags} -C src/current %{mfile}
+%{__make} -C src/current %{mfile}
 
 sed -i '1s/^/#!\/bin\/bash\n/' src/current/Generate_Graphs
 dos2unix src/current/report.pl
@@ -78,6 +78,9 @@ dos2unix docs/iozone.1
 %{_datadir}/iozone/
 
 %changelog
+* Wed Sep 11 2024 Chen Chen <aflyhorse@fedoraproject.org> - 3.506-2
+- Remove -j flag to avoid symbol racing, see https://aur.archlinux.org/packages/iozone#comment-981734
+
 * Fri Sep 6 2024 Chen Chen <aflyhorse@fedoraproject.org> - 3.506-1
 - Update to release 3.506
 
